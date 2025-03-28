@@ -1,0 +1,28 @@
+<ul id="studentList" class="list-group">
+    {% for student in students %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ student.name }} ({{ student.email }})
+            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ student.id }}">Edit</button>
+        </li>
+
+        <!-- Edit Student Modal -->
+        <div class="modal fade" id="editModal{{ student.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ student.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Student</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{% url 'edit_student' student.id %}">
+                            {% csrf_token %}
+                            <input type="text" name="name" class="form-control mb-2" value="{{ student.name }}" required>
+                            <input type="email" name="email" class="form-control mb-2" value="{{ student.email }}" required>
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</ul>
