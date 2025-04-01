@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Student</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Student</button>
+</form>
+{% endblock %}
+#add_student.html
+{% extends 'base.html' %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+<h2>Add Student</h2>
+<form id="studentForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="name">Name</label>
+        {{ form.name|as_widget(attrs={'class': 'form-control', 'id': 'name'}) }}
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        {{ form.email|as_widget(attrs={'class': 'form-control', 'id': 'email'}) }}
+    </div>
+    <div class="form-group">
+        <label for="age">Age</label>
+        {{ form.age|as_widget(attrs={'class': 'form-control', 'id': 'age'}) }}
+    </div>
+    <div class="form-group">
+        <label for="profile_pic">Profile Picture</label>
+        {{ form.profile_pic|as_widget(attrs={'class': 'form-control-file', 'id': 'profile_pic'}) }}
+    </div>
+    <button type="submit" class="btn btn-primary">Add Student</button>
+</form>
+{% endblock %}
+#Add JavaScript Validation for Form Inputs
+<script>
+    document.getElementById('studentForm').addEventListener('submit', function(event) {
+        let name = document.getElementById('name').value;
+        let email = document.getElementById('email').value;
+        let age = document.getElementById('age').value;
+
+        if (!name || !email || !age) {
+            event.preventDefault();
+            alert('Please fill out all fields.');
+        }
+    });
+</script>
+#Show Alerts Using Bootstrap Toaster
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

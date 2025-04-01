@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Dashboard</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Students</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_students }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Students Above 60%</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ students_above_60 }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Students Below 60%</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ students_below_60 }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Recent Students Added</h3>
+    <ul class="list-group mb-4">
+        {% for student in recent_students %}
+            <li class="list-group-item">{{ student.name }} - {{ student.marks }}%</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Charts</h3>
+    <canvas id="passFailChart" width="400" height="200"></canvas>
+    <canvas id="averageMarksChart" width="400" height="200"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const passFailCtx = document.getElementById('passFailChart').getContext('2d');
+    const averageMarksCtx = document.getElementById('averageMarksChart').getContext('2d');
+
+    const totalStudents = {{ total_students }};
+    const studentsAbove60 = {{ students_above_60 }};
+    const studentsBelow60 = {{ students_below_60 }};
+
+    // Pass/Fail Ratio Pie Chart
+    const passFailChart = new Chart(passFailCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Above 60%', 'Below 60%'],
